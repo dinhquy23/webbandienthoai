@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>DQ Shop</title>
+    <link rel="stylesheet" type="text/css" href="~/Frontend/assets/css/style.css">
+    <script type="text/javascript" src="~/Frontend/assets/js/script.js"></script>
+    <script type="text/javascript" src="~/Frontend/assets/js/jquery-3.6.0.js"></script>
+    @*<link rel="stylesheet" type="text/css" href="~/Frontend/assets/css/bootstrap.css">*@
+
+</head>
+<body>
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/6155b9e1d326717cb68415b0/1fgrds69h';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
+    @Html.Partial("~/Views/Shared/Header.cshtml")
+    <div class="content">
+        <!-- slideshow -->
+        <div class="slideshow-container">
+			<div class="mySlides fade">
+                  <img style="height:385px; width:1250px;" src="~/Frontend/images/iphone1250x385.png">
+                </div>
+
+                <div class="mySlides fade">
+                  <img style="height:385px; width:1250px;" src="~/Frontend/images/phonesize1250x385.png">
+                </div>
+
+                <div class="mySlides fade">
+                  <img style="height:385px; width:1250px;" src="~/Frontend/images/1.jpg">
+                </div>
+
+
+			<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+			<a class="next" onclick="plusSlides(1)">&#10095;</a>
+		</div>
+             <script>
+                    var slideIndex = 1;
+                    showSlides(slideIndex);
+
+                    function plusSlides(n) {
+                      showSlides(slideIndex += n);
+                    }
+
+                    function currentSlide(n) {
+                      showSlides(slideIndex = n);
+                    }
+
+                    function showSlides(n) {
+                      var i;
+                      var slides = document.getElementsByClassName("mySlides");
+                      var dots = document.getElementsByClassName("dot");
+                      if (n > slides.length) {slideIndex = 1}    
+                      if (n < 1) {slideIndex = slides.length}
+                      for (i = 0; i < slides.length; i++) {
+                          slides[i].style.display = "none";  
+                      }
+                      for (i = 0; i < dots.length; i++) {
+                          dots[i].className = dots[i].className.replace(" active", "");
+                      }
+                      slides[slideIndex-1].style.display = "block";  
+                      dots[slideIndex-1].className += " active";
+                    }
+            </script>
+        <!-- /slideshow -->
+        @RenderBody()
+    </div>
+    <!-- /content -->
+    <!-- footer -->
+    <div class="footer">
+        <div class="box">
+            <div class="box1">
+                <div class="box1-1">
+                    QUẢN LÝ TÀI KHOẢN
+                    <ul style="list-style-type: square; margin-left: 15px;">
+                        <li><a href="/Account/Register">Tạo tài khoản</a></li>
+                        <li><a href="/Account/Login">Đăng nhập</a></li>
+                        <li><a href="#">Thay đổi thông tin tài khoản</a></li>
+                        <li><a href="#">Quên mật khẩu</a></li>
+                        <li><a href="#">Lịch sử mua hàng</a></li>
+                    </ul>
+                </div>
+                <div class="box1-2">
+                    TRỢ GIÚP
+                    <ul style="list-style-type: square; margin-left: 15px;">
+                        <li><a href="#">Quy định sử dụng</a></li>
+                        <li><a href="#">Hướng dẫn mua hàng</a></li>
+                        <li><a href="#">Phương thức thanh toán</a></li>
+                        <li><a href="#">Phương thức vận chuyển</a></li>
+                        <li><a href="#">Các câu hỏi thường gặp F.A.Q</a></li>
+                    </ul>
+                </div>
+                <div class="box1-3">
+                    GIỚI THIỆU NHÀ XUẤT BẢN
+                    <ul style="list-style-type: square; margin-left: 15px;">
+                        <li><a href="#">Giới thiệu nhà xuất bản</a></li>
+                        <li><a href="#">Liên hệ</a></li>
+                        <li><a href="#">Góc báo chí</a></li>
+                        <li><a href="#">Sơ đồ website</a></li>
+                    </ul>
+                </div>
+                <div class="box1-4">
+                    ĐIỀU KHOẢN
+                    <ul style="list-style-type: square; margin-left: 15px;">
+                        <li><a href="#">Điều khoản sử dụng</a></li>
+                        <li><a href="#">Liên hệ</a></li>
+                        <li><a href="#">Góc báo chí</a></li>
+                        <li><a href="#">Sơ đồ website</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="a">
+            <div class="right">
+                <p style="font-weight: bold;">
+                    NGUYỄN ĐÌNH QUÝ
+                </p>
+
+                <p>Số 6, 136/88/9 Đường Cầu Diễn, Minh Khai, Bắc Từ Liêm, Hà Nội</p>
+
+                Tel: 0972 236 762 - Fax: 08.38394948
+            </div>
+            <div class="left">
+                <p>
+                    Social Sciences Publishing House
+                </p>
+                <p>
+                    Châu Sơn, Quảng Trường, Quảng Xương, Thanh Hóa
+                </p>
+                <p>
+                    Tel: 036.239.1959 - Email: dinhquy23121999@gmail.com
+                </p>
+            </div>
+
+        </div>
+    </div>
+    </div>
+    <!-- /footer -->
+</body>
+</html>

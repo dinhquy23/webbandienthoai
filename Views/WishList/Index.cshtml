@@ -1,0 +1,51 @@
+﻿@{
+
+    Layout = "~/Views/Shared/TrangTrong.cshtml";
+}
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using Project.Models;
+@using System.IO;
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+
+@functions {
+    MyDbContext db = new MyDbContext();
+    public Products GetProduct(int id)
+    {
+        Products _record = db.Products.Where(item => item.ID == id).FirstOrDefault();
+        return _record;
+    }
+}
+<div class="left">
+    <div class="title"><a href="#"><h2>Sản phẩm yêu thích</h2></a></div>
+        <div class="main-content">
+                <table border="1" style="border-collapse: collapse; margin-left:20px;">
+                    <thead>
+                        <tr>
+                            <th style="width:150px;">Ảnh sản phẩm</th>
+                            <th style="width:335px;">Tên sản phẩm</th>
+                            <th style="width:150px;">Giá bán lẻ</th>
+                            <th style="width:115px;"></th>
+                            <th style="width:115px;"></th
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            Products product = GetProduct(item);
+                            <tr>
+                                <td><a href="/Products/Detail/@product.ID"><img style="width:150px;" src="~/Upload/Products//@product.Photo" class="img-responsive" /></a></td>
+                                <td><a href="/Products/Detail/@product.ID">@product.Name</a></td>
+                                <td>  @string.Format("{0:#,#.}", product.Price-(product.Price*product.Discount)/100)₫ </td>
+                                <td><a href="/WishList/Remove/@product.ID">Xóa sản phẩm<i class="fa fa-trash"></i></a></td>
+                                <td><a href="/Cart/Buy/@product.ID">Cho vào giỏ hàng<i class="fa fa-trash"></i></a></td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+        </div>
+</div>

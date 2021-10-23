@@ -1,0 +1,191 @@
+﻿@{
+
+    Layout = "~/Views/Shared/TrangTrong1.cshtml";
+}
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using Project.Models;
+@using System.IO;
+
+
+@functions {
+
+    public MyDbContext db = new MyDbContext();
+    public string GetCategory(int _CategoryID)
+    {
+        Categories record = db.Categories.Where(item => item.ID == _CategoryID).FirstOrDefault();
+        return record.Name != null ? record.Name : "";
+    }
+    public string GetStar(int _ProductID, int _Star)
+    {
+        int _NumberStar = db.Ratings.Where(item => item.ProductID == _ProductID && item.Star == _Star).Count();
+        return _NumberStar.ToString();
+    }
+}
+
+<div class="content">
+    <!--left -->
+    <div class="left">
+
+        <div class="name-product">
+            @Model.Name
+        </div>
+
+        <!-- detais-product -->
+        <div class="details-product">
+
+            <img src="~/Upload/Products/@Model.Photo" id="img-show">
+            <div class="order">
+                <div class="cost">
+                    <strike>@string.Format("{0:#,#.}", Model.Price) ₫</strike>&nbsp;<u>đ</u><br>
+                    @string.Format("{0:#,#.}",Model.Price - (Model.Price * Model.Discount) / 100) <u>đ</u>
+                </div>
+                <a href="/Cart/Buy/@Model.ID">
+                    <div class="btn-buy">Mua ngay</div>
+                </a>
+                <div style="display: flex; margin-top: 5px;">
+                    <a href="/Cart/Buy/@Model.ID">
+                        <div class="btn-themvaogio">
+                            Thêm vào giỏ hàng
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="btn-tragop">
+                            Trả góp
+                        </div>
+                    </a>
+                </div>
+                <div class="vote">
+                    <table style="background:white;  height:150px;" border="1" class="table1">
+                        <tr>
+                            <td colspan="2">
+                                Đánh giá
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="~/Frontend/images/star.jpg">
+                            </td>
+                            <td>@GetStar(Model.ID,1)&nbsp;vote</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="~/Frontend/images/star.jpg">
+                                <img src="~/Frontend/images/star.jpg">
+                            </td>
+                            <td>@GetStar(Model.ID,2)&nbsp;vote</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="~/Frontend/images/star.jpg">
+                                <img src="~/Frontend/images/star.jpg">
+                                <img src="~/Frontend/images/star.jpg">
+                            </td>
+                            <td>@GetStar(Model.ID,3)&nbsp;vote</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="~/Frontend/images/star.jpg">
+                                <img src="~/Frontend/images/star.jpg">
+                                <img src="~/Frontend/images/star.jpg">
+                                <img src="~/Frontend/images/star.jpg">
+                            </td>
+                            <td>@GetStar(Model.ID,4)&nbsp;vote</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="~/Frontend/images/star.jpg">
+                                <img src="~/Frontend/images/star.jpg">
+                                <img src="~/Frontend/images/star.jpg">
+                                <img src="~/Frontend/images/star.jpg">
+                                <img src="~/Frontend/images/star.jpg">
+                            </td>
+                            <td>@GetStar(Model.ID,5)&nbsp;vote</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="infor">
+            <div class="title"><h2>Thông tin sản phẩm</h2></div>
+            <div class="details" style="line-height:20px;">
+                @Html.Raw(Model.Description)
+                @Html.Raw(Model.Content)
+            </div>
+        </div>
+        <!-- /details-product -->
+    </div>
+    <!-- /left -->
+    <!-- right -->
+    <div class="right">
+        <!-- search -->
+        <div class="timkiemnangcao">
+            <div class="title">Tìm kiếm nâng cao</div>
+            <div class="form" style="background: white;">
+                <ul>
+                    <li><input style="width: 197px;" type="text" placeholder="Nhập tên sản phẩm..."></li>
+                    <li>
+                        <select>
+                            <option>Chọn hãng sản xuất</option>
+                            <option>Apple</option>
+                            <option>SamSung</option>
+                            <option>LG</option>
+                            <option>Khác</option>
+                        </select>
+                    </li>
+                    <li>
+                        <select>
+                            <option>Mức giá</option>
+                            <option>Dưới 1 tr</option>
+                            <option>Từ 1-3 tr</option>
+                            <option>Từ 3-10 tr</option>
+                            <option>Từ 10-20 tr</option>
+                            <option>Trên 20</option>
+                        </select>
+                    </li>
+                    <li><input style="width: 70px;" type="button" value="Tìm kiếm"></li>
+                </ul>
+                <div class="a"><img src="~/Frontend/images/search-img.jpg"></div>
+            </div>
+        </div>
+        <!-- /search -->
+        <!-- support -->
+        <div class="support">
+            <div class="title">Hỗ trợ trực tuyến</div>
+            <div class="form-support">
+                <ul>
+                    <li>
+                        <div class="img">
+                            <img src="~/Frontend/images/icon.jpg">
+                        </div>
+                        <div class="infor"><a href="#">0972 236 762</a></div>
+                    </li>
+                    <li>
+                        <div class="img">
+                            <img src="~/Frontend/images/icon.jpg">
+                        </div>
+                        <div class="infor"><a href="#">Email liên hệ</a></div>
+                    </li>
+                    <li>
+                        <div class="img">
+                            <img src="~/Frontend/images/icon.jpg">
+                        </div>
+                        <div class="infor"><a href="#">Liên hệ trực tiếp</a></div>
+                    </li>
+                    <li>
+                        <div class="img">
+                            <img src="~/Frontend/images/icon.jpg">
+                        </div>
+                        <div class="infor"><a href="#">abc</a></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /support -->
+        <div class="banner">
+            <a href="#"><img width="240px" style="margin-top:20px" src="~/Frontend/images/unamed.jpg"></a>
+        </div>
+    </div>
+    <!-- /right -->
+</div>

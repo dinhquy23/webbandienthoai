@@ -1,0 +1,36 @@
+﻿@{
+
+    Layout = "~/Views/Shared/TrangTrong.cshtml";
+}
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using Project.Models;
+@using System.IO;
+<link rel="stylesheet" type="text/css" href="~/frontend/assets/css/pagelist.css" />
+<div class="left">
+    <div class="title"><h2>News</h2></div>
+    <div class="main-content1">
+        <ul>
+            @foreach (News item in Model)
+            {
+                <li>
+                    <div class="news">
+                        <div class="img1">
+                            <a href="/News/Detail/@item.ID">
+                                <img style="width:430px;" src="~/Upload/News/@item.Photo" alt="@item.Name" title="@item.Name">
+                            </a>
+                        </div>
+                        <div class="content1">
+                            <h3><a href="/News/Detail/@item.ID">@item.Name</a></h3>
+                            <p>@Html.Raw(item.Description)</p>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+
+    </div>
+    <div class="phantrang">
+        @Html.PagedListPager((IPagedList)Model,p=>Url.Action("Index",new{page=p}))
+    </div>
+</div>

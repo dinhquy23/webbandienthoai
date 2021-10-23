@@ -1,0 +1,229 @@
+﻿  @{
+    Layout = "~/Views/Shared/TrangChu.cshtml";
+}
+@using Project.Models
+@functions {
+    public MyDbContext db = new MyDbContext();
+    public List<Products> HotProducts()
+    {
+        List<Products> _List = db.Products.Where(item => item.Hot == 1).Take(5).ToList();
+        return _List;
+    }
+    public List<News> ListNews()
+    {
+        List<News> record = db.News.OrderByDescending(item => item.ID).Take(4).ToList();
+        return record;
+    }
+    public List<Categories> Categories()
+    {
+        List<Categories> _ListRecord = db.Categories.OrderByDescending(item => item.ID).ToList();
+        return _ListRecord;
+    }
+    public bool CheckProductsInCategory(int _CategoryID)
+    {
+        var record = db.Products.Where(tbl => tbl.CategoryID == _CategoryID);
+        if (record.Count() > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public List<Products> ProductsInCategory(int _CategoryID)
+    {
+        List<Products> _List = db.Products.Where(tbl => tbl.CategoryID == _CategoryID).OrderByDescending(tbl => tbl.ID).Take(5).ToList();
+        return _List;
+    }
+    //lay 6 bai tin noi bat
+    public List<News> HotNews()
+    {
+        List<News> _ListRecord = db.News.Where(tbl => tbl.Hot == 1).OrderByDescending(tbl => tbl.ID).Take(6).ToList();
+        return _ListRecord;
+    }
+}
+<!-- main -->
+<div class="main">
+    <ul>
+       
+        <li>
+            <a href="/Products/Category/11">
+                <div class="product">
+                    <div class="title">
+                        <h2>Oppo</h2>
+                    </div>
+                    <div class="img">
+                        <img style="width:220px;" src="~/Frontend/images/oppo-reno-6.jpg">
+                    </div>
+                </div>
+            </a>
+        </li>
+       
+        <li>
+            <a href="/Products/Category/5">
+                <div class="product">
+                    <div class="title">
+                        <h2>LG</h2>
+                    </div>
+                    <div class="img">
+                        <img style="width:220px;" src="~/Frontend/images/lg-wing-600x600.jpg">
+                    </div>
+                </div>
+            </a>
+        </li>
+         <li>
+            <a href="/Products/Category/10">
+                <div class="product">
+                    <div class="title">
+                        <h2>Xiaomi</h2>
+                    </div>
+                    <div class="img">
+                        <img style="width:220px;" src="~/Frontend/images/xiaomi-mi-10t-pro-den-200x200.jpg">
+                    </div>
+                </div>
+            </a>
+        </li>
+         <li>
+            <a href="/Products/Category/1">
+                <div class="product">
+                    <div class="title">
+                        <h2>Iphone</h2>
+                    </div>
+                    <div class="img">
+
+                        <img style="width:220px;" src="~/Frontend/images/iphone13promax.png">
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="/Products/Category/2">
+                <div class="product">
+                    <div class="title">
+                        <h2>SamSung</h2>
+                    </div>
+                    <div class="img">
+                        <img style="width:220px;" src="~/Frontend/images/samsunggalaxyzfold.png">
+                    </div>
+                </div>
+            </a>
+        </li>
+    </ul>
+
+</div>
+<!-- /main -->
+<div class="bannercontent">
+    <a href="#"><img src="~/Frontend/images/widebanner221b.jpg"></a>
+</div>
+<div class="a">
+    <div class="title"><a href="#"><h2>Hot Products</h2></a></div>
+    <ul>
+        @{
+            List<Products> _HotProducts = HotProducts();
+        }
+        @foreach (Products item in _HotProducts)
+        {
+            <li>
+
+                <div class="product1" style="position:relative;">
+                    <div style="width:30px; line-height:30px; text-align:center; z-index:3; background:rgba(246,0,0,0.6);color:white;border-radius:30px;position:absolute">-@item.Discount%</div>
+                    <div class="img1">
+                        <a href="/Products/Detail/@item.ID"><img style="width:220px; height:220px; z-index:-1;" src="~/Upload/Products/@item.Photo"></a>
+                    </div>
+                    <a href="/WishList/Create/@item.ID"><div class="heart" style="position:absolute; top:5px; right:7px;"></div></a>
+                    <div class="content1">
+                        <p>@item.Name</p>
+                        <p style="text-decoration: line-through; color:red;">@string.Format("{0:#,#.}", item.Price) ₫ </p>
+                        <p>@string.Format("{0:#,#.}",item.Price - (item.Price * item.Discount) / 100) ₫ </p>
+                        <div class="star" style="text-align: center;">
+                            <a href="/Products/Star/@item.ID?star=1"><img src="~/Frontend/images/star.jpg"></a>
+                            <a href="/Products/Star/@item.ID?star=2"><img src="~/Frontend/images/star.jpg"></a>
+                            <a href="/Products/Star/@item.ID?star=3"><img src="~/Frontend/images/star.jpg"></a>
+                            <a href="/Products/Star/@item.ID?star=4"><img src="~/Frontend/images/star.jpg"></a>
+                            <a href="/Products/Star/@item.ID?star=5"><img src="~/Frontend/images/star.jpg"></a>
+                        </div>
+                        <form action="#">
+                            <a href="/Cart/Buy/@item.ID"> <input type="button" value="Add To Cart"></a>
+                        </form>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+</div>
+@{
+    List<Categories> _ListCategories = Categories();
+}
+@foreach (Categories itemCate in _ListCategories)
+{
+    if (CheckProductsInCategory(itemCate.ID) == true)
+    {
+        <div class="a">
+            <div class="title"><a href="/Products/Category/@itemCate.ID"><h2>@itemCate.Name</h2></a></div>
+            <ul>
+                @{
+                    List<Products> _ListProduct = ProductsInCategory(itemCate.ID);
+                }
+                @foreach (Products item in _ListProduct)
+                {
+                    <li>
+
+                        <div class="product1" style="position:relative;">
+                            <div style="width:30px; line-height:30px; text-align:center; z-index:3; background:rgba(246,0,0,0.6);color:white;border-radius:30px;position:absolute">-@item.Discount%</div>
+                            <div class="img1">
+                                <a href="/Products/Detail/@item.ID"><img style="width:220px; height:220px; z-index:-1;" src="~/Upload/Products/@item.Photo"></a>
+                            </div>
+                            <a href="/WishList/Create/@item.ID"><div class="heart" style="position:absolute; top:5px; right:7px;"></div></a>
+                            <div class="content1">
+                                <a href="/Products/Detail/@item.ID">
+                                    <p>@item.Name</p>
+                                </a>
+                                <p style="text-decoration: line-through; color:red;">@string.Format("{0:#,#.}", item.Price) ₫ </p>
+                                <p>@string.Format("{0:#,#.}",item.Price - (item.Price * item.Discount) / 100) ₫ </p>
+                                <div class="star" style="text-align: center;">
+                                    <a href="/Products/Star/@item.ID?star=1"><img src="~/Frontend/images/star.jpg"></a>
+                                    <a href="/Products/Star/@item.ID?star=2"><img src="~/Frontend/images/star.jpg"></a>
+                                    <a href="/Products/Star/@item.ID?star=3"><img src="~/Frontend/images/star.jpg"></a>
+                                    <a href="/Products/Star/@item.ID?star=4"><img src="~/Frontend/images/star.jpg"></a>
+                                    <a href="/Products/Star/@item.ID?star=5"><img src="~/Frontend/images/star.jpg"></a>
+                                </div>
+                                <form action="#">
+                                    <a href="/Cart/Buy/@item.ID"> <input type="button" value="Add To Cart"></a>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+}
+<div class="bannercontent">
+    <a href="#"><img style="margin-top:25px; margin-left:-30px" src="~/Frontend/images/widebanner222b.jpg"></a>
+</div>
+@{
+
+    List<News> listNews = ListNews();
+}
+<div class="news">
+    <div class="title"><h2>News</h2></div>
+    <ul>
+       @foreach(var item in listNews)
+       {
+        <li>
+            <div class="new">
+                <div class="img1">
+                    <a href="/News/Detail/@item.ID">
+                        <img style="width:300px; height:170px;" src="~/Upload/News/@item.Photo" alt="@item.Name" title="@item.Name">
+                    </a>
+                </div>
+                <div class="content1" style="">
+                    <h3 style="margin-left:5px; margin-right:5px; margin-top:8px;"><a href="/News/Detail/@item.ID">@item.Name</a></h3>
+                    <p class="limit-text">@Html.Raw(item.Description)</p>
+                </div>
+            </div>
+        </li>
+        }
+    </ul>
+</div>

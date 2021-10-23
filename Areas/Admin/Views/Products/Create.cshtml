@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+@using Project.Models
+@functions
+{
+    public MyDbContext db = new MyDbContext();
+    public List<Categories> GetListCategory()
+    {
+        List<Categories> _ListRecord = db.Categories.Where(item => item.ParentID == 0).OrderByDescending(item => item.ID).ToList();
+        return _ListRecord;
+    }
+    public List<Categories> GetListCategorySub(int _CategoryID)
+    {
+        List<Categories> _ListRecord = db.Categories.Where(item => item.ParentID == _CategoryID).OrderByDescending(item => item.ID).ToList();
+        return _ListRecord;
+    }
+    public List<Tags> ListTags()
+    {
+        List<Tags> _ListRecord = db.Tags.OrderByDescending(item => item.ID).ToList();
+        return _ListRecord;
+    }
+    public bool ChechExists(int _ProductID, int _TagID)
+    {
+        int intCount = db.ProductsTags.Where(item => item.ProductID == _ProductID && item.TagID == _TagID).Count();
+        if (intCount > 0)
+        {
+            return true;
+        }
+        return false;
+    }
+}
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Register - SB Admin</title>
+    <link href="~/Admin/css/styles.css" rel="stylesheet" />
+    <script language="javascript" src="~/Admin/ckeditor/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="bg-primary">
+    <div id="layoutAuthentication" style="margin-bottom:50px;">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-11">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Products</h3></div>
+                                <div class="card-body">
+                                    <form method="post" enctype="multipart/form-data" action="">
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <input class="form-control" id="inputName" type="text" value="@if (Model != null) {<text>@Model.Name</text>}" name="Name" required />
+                                                    <label for="inputName">Name</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <input class="form-control" id="inputPrice" style="width:100%;" type="text" value="@if (Model != null) {<text>@Model.Price</text>}" name="Price" required />
+                                                    <label for="inputPrice">Price</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <input class="form-control" id="inputDiscount" style="width:100%;" type="text" value="@if (Model != null) {<text>@Model.Discount</text>}" name="Discount" required />
+                                                    <label for="inputDiscount">Discount</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <select name="CategoryID" class="form-control" id="Category" style="width:100%;">
+                                                        @{
+                                                            List<Categories> Categories = GetListCategory();
+                                                        }
+                                                        @foreach (Categories itemCategory in Categories)
+                                                        {
+                                                            <option @if (Model != null && Model.CategoryID == itemCategory.ID) { <text> selected</text>} value="@itemCategory.ID">@itemCategory.Name</option>
+                                                            List<Categories> CategoriesSub = GetListCategorySub(itemCategory.ID);
+                                                            foreach (Categories itemSub in CategoriesSub)
+                                                            {
+                                                                <option @if (Model != null && Model.CategoryID == itemSub.ID) { <text> selected</text>} value="@itemSub.ID">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@itemSub.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                    <label for="Category">Category</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row" style="margin-top:5px;">
+                                            <div class="col-md-2">Tags</div>
+                                            <div class="col-md-10" style=" height: 200px; overflow: scroll;">
+                                                <table class="table">
+                                                    @{
+                                                        List<Tags> _ListRecord = ListTags();
+                                                    }
+                                                    @foreach (var item in _ListRecord)
+                                                    {
+                                                        <tr>
+                                                            <td><input type="checkbox" @if (Model != null && ChechExists(Model.ID, item.ID)) { <text>checked</text> } name="tag_@item.ID"  id="tag_@item.ID" />&nbsp;&nbsp;<label for="tag_@item.ID">@item.Name</label></td>
+                                                        </tr>
+                                                    }
+                                                </table>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    Photo
+                                                    <input type="file" id="inputPhoto" name="Photo" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    Hot Products
+                                                    <input type="checkbox" name="Hot" id="Hot" @if (Model != null && Model.Hot == 1) { <text> checked </text>}/>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    Description
+                                                    <textarea name="Description"> @if (Model != null)
+                                                        {
+                                                            <text>@Model.Description</text>
+                                                        }
+                                                    </textarea>
+                                                    <script language="javascript">
+                                                        CKEDITOR.replace("Description")
+                                                    </script>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    Content
+                                                    <textarea name="Content"> @if (Model != null)
+                                                        {
+                                                            <text>@Model.Content</text>
+                                                        }
+                                                    </textarea>
+                                                    <script language="javascript">
+                                                        CKEDITOR.replace("Content")
+                                                    </script>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-4 mb-0">
+                                            <div class="d-grid">
+                                                <input type="submit" class="btn btn-primary btn-block" value="Create Products">
+
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="~/Admin/js/scripts.js"></script>
+</body>
+</html>

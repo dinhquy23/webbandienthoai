@@ -1,0 +1,373 @@
+body{
+	margin: 0px;
+	padding: 0px;
+	font-family: Arial;
+	font-size: 12px;
+}
+ul{
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+a{
+	text-decoration: none;
+	color: black;
+	font-size: 12px;
+}
+.header{
+	background: black;
+	line-height: 30px;
+	color: white;
+	font-size: 12px;
+}
+.header .host{
+	margin-left: 50px;
+}
+.header .host a{
+	text-decoration: none;
+	color: white;
+}
+.header .host a:hover{
+	text-decoration: underline;
+}
+.header .login{
+	float:  right;
+	margin-right: 50px;
+}
+.header .login a{
+	color: white;
+	text-decoration: none;
+}
+.header .login a:hover{
+	text-decoration: underline;
+}
+.logo{
+	background: black;
+	display: flex;
+}
+.logo .left{
+	margin-left: 80px;
+}
+.logo .right{
+	margin-left: 110px;
+}
+.logo .right input{
+	margin-top: 25px;
+	width: 650px;
+	line-height: 40px;
+	border-radius: 20px;
+}
+.logo .right .giohang{
+	float: right;
+	margin-left: 150px;
+	margin-top: 30px;
+	color: white;
+}
+.logo .right .giohang span{
+	font-size: 14px;
+	margin-left: 5px;
+}
+.menu{
+	line-height: 35pxpx;
+	width: 100%;
+	background: #232F3E;
+}
+.menu > nav > ul{
+	line-height: 35px;
+	margin-left: 90px;
+}
+.menu > nav > ul > li{
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+	position: relative;
+}
+.menu > nav > ul > li > a{
+	color: white;
+	padding: 10px;
+}
+.menu > nav > ul > li > a:hover{
+	text-decoration: none;
+}
+.menu > nav > ul > li:hover{
+	background: grey;
+}
+.menu > nav > ul > li > .sub-menu{
+	display: none;
+	background: white;
+	width: 150px;
+}
+.menu > nav > ul > li > .sub-menu a{
+	margin-left: 10px;
+	text-decoration: none;
+	color: black;
+}
+.menu > nav > ul > li > .sub-menu a:hover{
+	color: blue;
+}
+.menu > nav > ul > li >ul{
+	position: absolute;
+	z-index: 1;
+}
+.menu > nav > ul > li:hover .sub-menu{
+	display: block;
+}
+.content{
+	background: white;
+	width: 1170px;
+	margin: auto;
+	position: relative;
+	display: flex;
+	padding-bottom: 30px;
+}
+.content .left{
+	width: 905px;
+	position: relative;
+}
+.table1 {
+    width: 100%;        
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    font-size: 14px;
+    border-top: 1px solid black;
+}
+.table1 > th, td {
+    padding: 8px;
+    text-align: left;
+    border-top: 1px solid #dee2e6;
+}
+.table1 > tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+.content .left .details-product{
+	display: flex;
+	margin-left: 10px;
+}
+
+	.content .left .infor {
+		width: 900px;
+		overflow: hidden;
+	}
+.content .left .order{
+	width: 400px;
+}
+.content .left .order .vote{
+	margin-top: 10px;
+}
+.content .left .order .btn-buy{
+	width: 100%;
+	line-height: 50px;
+	background: #CB1C22;
+	border-radius: 5px;
+	text-align: center;
+	font-size: 20px;
+	color: white;
+}
+.content .left .order .btn-themvaogio{
+	text-align: center;
+	color: white;
+	background: #0664f9;
+	width: 250px;
+	border-radius: 5px;
+	font-size: 20px;
+	line-height: 50px;
+}
+.content .left .order .btn-themvaogio:hover{
+	background: #0050D7;
+}
+.content .left .order .btn-tragop{
+	text-align: center;
+	color: white;
+	background: #0664f9;
+	width: 146px;
+	border-radius: 5px;
+	font-size: 20px;
+	line-height: 50px;
+	margin-left: 4px;
+}
+.content .left .order .btn-tragop:hover{
+	background: #0050D7;
+}
+.content .left .order .btn-buy:hover{
+	background: #AE1427;
+}
+.content .left .order .cost{
+	font-size: 26px;
+	color: red;
+}
+.content .left .details-product #img-show{
+	width: 300px;
+	height: 300px;
+	margin-left: 10px;
+	margin-top: 50px;
+	margin-right:50px;
+}
+.content .left .details-product ul{
+	margin-top: 25px;
+}
+.content .left .details-product ul li{
+	margin-bottom: 20px;
+}
+.content .left .details-product ul li img{
+	width: 50px;
+	border: 1px solid black;
+	cursor: pointer;
+}
+.content .left .details-infor {
+	float: right;
+	margin-right: 33px;
+	margin-top: 20px;
+	width: 600px;
+}
+.content .left .infor img{
+	max-width: 960px;
+}
+.content .left .name-product {
+	font-size: 24px;
+	font-weight: bold;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	width: 860px;
+	margin-left: 10px;
+	border-bottom: 1px solid black;
+}
+.content > .left > .main-content{
+	position: relative;
+	background: black
+}
+.content .right{
+	width: 240px;
+	margin-left: 5px;
+}
+.content .right .title{
+	background: #232F3E;
+	line-height: 30px;
+	color: white;
+	font-size: 16px;
+	text-align: center;
+}
+.content .right .timkiemnangcao{
+	border: 1px solid #cfbdb8;
+	margin-top: 11px;
+	border-radius: 5px;
+	position: relative;
+}
+.content .right .timkiemnangcao ul{
+	text-align: right;
+	margin-right: 13px;
+	margin-top: 5px;
+}
+.content .right .timkiemnangcao ul li{
+	margin-bottom: 15px;
+}
+.content .right .timkiemnangcao .a{
+	position: absolute;
+	bottom: 5px;
+	left: 20px;
+}
+.content .right .timkiemnangcao .form{
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.content .right .support{
+	border: 1px solid #cfbdb8;
+	border-radius: 3px;
+	margin-top: 20px;
+}
+.content .right .support ul{
+	margin-left: 30px;
+	margin-top: 16px;
+}
+.content .right .support ul li{
+	display: flex;
+	margin-bottom: 15px;
+}
+.content .right .support .infor{
+	margin-top: 5px;
+	margin-left: 25px;
+}
+.content .right .support .form-support{
+	background: white;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.footer .box{
+	background: #232F3E;
+	height: 187px;
+	padding-top: 10px;
+}
+.footer .box .box1{
+	width: 950px;
+	margin: auto;
+	display: flex;
+}
+.footer .box .box1-1{
+	margin-top: 20px;
+	width: 220px;
+	color: #edd4cf;
+}
+.footer .box .box1-1 li{
+	margin-top: 15px;
+}
+.footer .box .box1-1 a{
+	color: #edd4cf;
+}
+.footer .box .box1-2{
+	width: 285px;
+	margin-top: 20px;
+	color: #edd4cf;
+	margin-left: 50px;
+}
+.footer .box .box1-2 li{
+	margin-top: 15px;
+}
+.footer .box .box1-2 a{
+	color: #edd4cf;
+}
+.footer .box .box1-3
+{
+	width: 243px;
+	margin-top: 20px;
+	color: #edd4cf;
+	margin-left: 50px;
+}
+.footer .box .box1-3 li{
+	margin-top: 15px;
+}
+.footer .box .box1-3 a{
+	color: #edd4cf;
+}
+
+.footer  .box .box1-4{
+	width: 300px;
+	margin: auto;
+	color: #edd4cf;
+	margin-left: 60px;
+}
+.footer  .box .box1-4 li{
+	margin-top: 15px;
+}
+.footer  .box .box1-4 a{
+	color: #edd4cf;
+}
+.footer .a{
+	background: #131A22;
+	height: 117px;
+	padding-top: 10px;
+}
+.footer .a .left{
+	width: 390px;
+	margin-left: 200px;
+	border-right: 1px dotted #ca9b8e;
+	color: #edd4cf;
+}
+.footer .a .right{
+	float: right;
+	margin-right: 350px;
+	color: #edd4cf;
+}
+.footer .a p{
+	line-height: 12px;
+}

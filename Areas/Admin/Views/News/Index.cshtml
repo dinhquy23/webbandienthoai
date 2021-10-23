@@ -1,0 +1,64 @@
+﻿@{
+
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+}
+@*de phan trang thi phai using cac doi tuong sau*@
+
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using Project.Models;
+@using System.IO;
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">News</h1>
+    <div style="margin-bottom:5px; margin-top:10px">
+    <a href="/Admin/News/Create" class="btn btn-primary">Add news</a>
+    </div>
+    <div class="card mb-4">
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th style="width:100px; text-align:center">Image</th>
+                        <th  style=" text-align:center">Name</th>
+                        <th  style=" text-align:center">Hot News</th>
+                        <th style=" text-align:center"></th>
+                    </tr>
+                    </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <center>
+                                    @if (item.Photo != null && File.Exists(Directory.GetCurrentDirectory() + "\\wwwroot\\Upload\\News\\" + item.Photo))
+                                    {
+                                        <img src="~/Upload/News/@item.Photo" style="width:100px;" />
+                                    }
+
+                                </center>
+                            </td>
+                            <td>@item.Name</td>
+                            <td>
+                                @if (item.Hot == 1)
+                                {
+                                    <text><center>Hot</center></text>
+                                }
+                            </td>
+                            <td style="text-align:center;">
+                                <a href="/Admin/News/Update/@item.ID">Edit</a>&nbsp;
+                                <a href="/Admin/News/Delete/@item.ID" onclick="return window.confirm('Are you sure?');">Delete</a>
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+

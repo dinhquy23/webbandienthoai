@@ -1,0 +1,152 @@
+﻿  @using Project.Models
+  @using Microsoft.AspNetCore.Http;
+
+@functions {
+    public MyDbContext db = new MyDbContext();
+    public List<Categories> Categories()
+    {
+        List<Categories> _ListRecord = db.Categories.Where(item => item.ParentID == 0).OrderByDescending(item => item.ID).ToList();
+        return _ListRecord;
+    }
+}
+<script type="text/javascript" src="~/Frontend/assets/js/jquery-3.6.0.js"></script>
+
+<script language="javascript">
+     function search() 
+     {
+        var key = document.getElementById("key").value;
+        //di chuyen den mot url khac
+        location.href = "/Search/SearchProducts/?key=" + key;
+     }
+     //--
+     $(document).ready(function () 
+     {
+        $("#key").keyup(function () 
+        {
+            var key = $("#key").val();
+
+            if (key != "") 
+            {
+                $(".smart-search-list").attr("style", "display:block");
+                //ajax get
+                $.get("/Search/Ajax?key=" + key, function (result) 
+                {
+                    //lam rong cac danh sach cua cac the li
+                    $(".smart-search-list ul").empty();
+                    //them ket qua vao the li
+                    $(".smart-search-list ul").append(result);
+                });
+            }
+            else
+            {
+                 $(".smart-search-list").attr("style", "display:none");
+            } 
+        });
+     });
+</script>
+<div class="top">
+    <!-- header -->
+    <div class="header">
+        <div>
+            <div class="login">
+                @if (Context.Session.GetString("customer_email") != null)
+                {
+                    <text>
+                        <span>Xin chào @Context.Session.GetString("customer_email")</span>
+                        &nbsp; &nbsp;
+                        <a href="/Account/Orders">Đơn hàng</a>
+                        &nbsp;
+                        <a href="/Account/Logout">Đăng xuất</a>
+                    </text>
+                }
+                else
+                {
+                    <text>
+                        <a href="/Account/Login">Đăng nhập</a>
+                        &nbsp; &nbsp;
+                        <a href="/Account/Register">Đăng ký</a>
+                    </text>
+                }
+
+            </div>
+            <div class="host">0972 236 762&nbsp; &nbsp; <a href="https://mail.google.com/">dinhquy23121999@gmail.com</a></div>
+        </div>
+    </div>
+    <!-- /header -->
+    <!-- logo -->
+    <div class="logo">
+        <div class="left">
+            <a href="/Home"><img style="border-radius:120px;" width="120px" src="~/Frontend/images/logo.png"></a>
+        </div>
+        <div class="right" id="smart-search">
+            <input style="font-size: 13px;" autocomplete="off" type="text" placeholder="Nhập từ khóa cần tìm..." id="key">
+
+            <button style="width:100px; height:45px; font-size: 14px; border-radius:20px;" type="submit" onclick="return search();">Tìm kiếm</button>
+            <div class="smart-search-list">
+                <ul>
+                </ul>
+            </div>
+            <a href="/Cart"><div class="giohang"><img width="27px" src="~/Frontend/images/giohang.png"><span>Giỏ hàng</span></div></a>
+        </div>
+
+    </div>
+    <style>
+        #smart-search {
+            position: relative;
+        }
+
+        .smart-search-list {
+            position: absolute;
+            width: 66%;
+            background: white;
+            z-index: 4;
+            display: none;
+        }
+
+            .smart-search-list img {
+                margin-left:10px;
+                width: 35px;
+                margin-right: 5px;
+                float: left;
+               margin-top:-8px;
+            }
+
+            .smart-search-list ul {
+                padding: 0px;
+                margin: 0px;
+                list-style: none;
+            }
+
+            .smart-search-list li {
+                border-bottom: 1px solid #dddddd;
+                height: 31px;
+            }
+    </style>
+    <!-- logo -->
+    <!-- menu -->
+    <div class="menu">
+        <nav>
+            <ul>
+                <li><a href="/Home">TRANG CHỦ</a></li>
+                <li>
+                    <a href="/Products">SẢN PHẨM</a>
+                    <ul class="sub-menu">
+                        @{
+                            List<Categories> _ListCategory = Categories();
+                        }
+                        @foreach (Categories item in _ListCategory)
+                        {
+                            <li><a href="/Products/Category/@item.ID">@item.Name</a></li>
+                            @* List<Categories> _ListCategoriesSub =  CategoriesSub(item.ID);*@
+                        }
+                    </ul>
+                </li>
+                <li><a href="/News">TIN TỨC</a></li>
+                <li><a href="/WishList">SẢN PHẨM YÊU THÍCH</a></li>
+                <li><a href="/Contact">ĐỊA CHỈ LIÊN HỆ</a></li>
+                <li><a href="/Cart">GIỎ HÀNG</a></li>
+            </ul>
+        </nav>
+    </div>
+    <!-- /menu -->
+</div>

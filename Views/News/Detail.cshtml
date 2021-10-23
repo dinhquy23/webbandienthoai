@@ -1,0 +1,31 @@
+﻿@{
+
+    Layout = "~/Views/Shared/TrangTrong.cshtml";
+}
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using Project.Models;
+@using System.IO;
+@functions{
+    MyDbContext db = new MyDbContext();
+    public News GetNews(int id)
+    {
+        News _record=db.News.Where(item=>item.ID==id).FirstOrDefault();
+        return _record;
+    }
+    }
+    @{ News news = GetNews(ViewBag.ID);
+    }
+    <div class="left">
+        <div class="title"><a href="#"><h2>Detail</h2></a></div>
+        <div class="main-content1" style="margin-top:10px; padding-left:10px; overflow:hidden;">
+           <a href="/News/Detail/@news.ID" class="image">
+                <center><img style="width:95%;" src="~/Upload/News/@news.Photo" alt="@news.Name" title="@news.Name" /> </a></center>
+                <h3><a href="/News/Detail/@news.ID">@news.Name</a></h3>
+                
+                <p class="desc" style="line-height:17px;">
+                    @Html.Raw(news.Description)
+                </p>
+                <p class="content" style="line-height:27px;">@Html.Raw(news.Content)</p>
+        </div>
+    </div>

@@ -1,0 +1,80 @@
+﻿@{
+
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+}
+@*de phan trang thi phai using cac doi tuong sau*@
+
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using Project.Models;
+@using System.IO;
+
+@functions {
+    public MyDbContext db = new MyDbContext();
+
+    public Customers GetCustomer(int _CustomerID)
+    {
+        Customers record = db.Customers.Where(item => item.ID == _CustomerID).FirstOrDefault();
+        return record != null ? record : new Customers();
+    }
+}
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Orders List</h1>
+    <div class="card mb-4">
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th style=" text-align:center">Name</th>
+                        <th style=" text-align:center">Address</th>
+                        <th style=" text-align:center">Phone</th>
+                        <th style=" text-align:center">Created</th>
+                        <th style=" text-align:center">Price</th>
+                        <th style=" text-align:center">Status</th>
+                        <th style=" text-align:center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        Customers record = GetCustomer(item.CustomerID);
+                        <tr>
+                            <td>@record.Name</td>
+                            <td>@record.Address</td>
+                            <td style="text-align:center">@record.Phone</td>
+                            <td style="text-align:center">@item.Create.ToString("dd-MM-yyyy")</td>
+                            <td style="text-align:center">@string.Format("{0:#,#.}",item.Price)₫</td>
+                            <td style="text-align:center;">
+                                @if (item.Status == 2)
+                                {
+                                    <text><label style="background:#D9534F; color:white; font-weight:bold; padding:5px; border-radius:5px;">Đã hủy đơn hàng</label></text>
+                                }
+                                @if (item.Status == 1)
+                                {
+                                    <text><label style="background:#428BCA; color:white; font-weight:bold; padding:5px; border-radius:5px;">Đã giao hàng</label></text>
+                                }
+                                @if (item.Status == 0)
+                                {
+                                    <text><label style="background:#F0AD4E; color:white; font-weight:bold; padding:5px; border-radius:5px;">Chưa giao hàng</label></text>
+                                }
+                            </td>
+                            <td style="text-align:center;">
+                                @if (item.Status == 0)
+                                {
+                                    <text><a href="/Admin/Orders/Delivery/@item.ID">Giao hàng</a></text>
+                                }
+                                &nbsp;&nbsp;
+                                <a href="/Admin/Orders/Detail/@item.ID">Chi tiết</a>
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+

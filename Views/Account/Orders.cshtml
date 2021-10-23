@@ -1,0 +1,85 @@
+﻿@{
+
+    Layout = "~/Views/Shared/TrangTrong.cshtml";
+}
+@using Project.Models;
+@functions {
+    MyDbContext db = new MyDbContext();
+    public List<Orders> GetOrders(int _CustomerID)
+    {
+        List<Orders> _ListRecord = db.Orders.Where(item => item.CustomerID == _CustomerID).OrderByDescending(tbl => tbl.ID).ToList();
+        return _ListRecord;
+    }
+    public Products GetProducts(int _ProductID)
+    {
+        Products _ListProduct = db.Products.Where(item => item.ID == _ProductID).OrderByDescending(item => item.ID).FirstOrDefault();
+        return _ListProduct;
+    }
+    public List<OrdersDetail> GetOrdersDetail(int _OrderID)
+    {
+        List<OrdersDetail> _ListRecord = db.OrdersDetails.Where(item => item.OrderID == _OrderID).OrderByDescending(tbl => tbl.ID).ToList();
+        return _ListRecord;
+    }
+}
+<link rel="stylesheet" type="text/css" href="~/Frontend/assets/css/styles.css">
+<link rel="stylesheet" type="text/css" href="~/Frontend/assets/css/style2.css">
+    <div class="left" style="margin-top:10px">
+        <main>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        @foreach (var item in Model)
+                        {
+                            <div class="panel panel-default" style="border: 1px solid #232F3E; border-radius:5px; margin-bottom:20px;">
+                                <div class="panel-heading" style="line-height:30px; padding-left:10px; color:white; background:#232F3E">Ngày mua: @item.Create.ToString("dd-MM-yyyy") - Giá: @string.Format("{0:#,#.}", item.Price)</div>
+                                <div class="panel-body">
+                                    <div style="margin-bottom:10px;">
+                                        @if (item.Status == 1)
+                                        {
+                                            <text><span style="color:red;margin-left:10px;">Đã giao hàng</span></text>
+                                        }
+                                        @if (item.Status == 0)
+                                        {
+                                            <text><a style="margin-top:10px; margin-left:10px;" class="btn btn-primary" href="/Account/RemoveOrders/@item.ID">Hủy đơn hàng</a></text>
+                                        }
+                                        @if (item.Status == 2)
+                                        {
+                                            <text><span style="color:red; margin-left:10px; margin-top:10px;">Đã hủy đơn hàng</span></text>
+                                        }
+                                    </div>
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <td colspan="2">
+                                                <table class="table table-bordered">
+                                                    @{
+                                                        List<OrdersDetail> _ListOrdersDetail = GetOrdersDetail(item.ID);
+                                                    }
+
+                                                    @foreach (OrdersDetail itemOrdersDetail in _ListOrdersDetail)
+                                                    {
+                                                        Products _RecordProduct = GetProducts(itemOrdersDetail.ProductID);
+                                                        <tr>
+                                                            <td style="width:100px">
+                                                                <img style="width:100px;" src="~/Upload/Products/@_RecordProduct.Photo">
+                                                            </td>
+                                                            <td>@_RecordProduct.Name</td>
+                                                            <td style="width:100px; text-align:center">@string.Format("{0:#,#.}", itemOrdersDetail.Price)₫</td>
+                                                            <td style="width:100px; text-align:center">@itemOrdersDetail.Quantity</td>
+                                                        </tr>
+                                                    }
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </main>
+
+
+    </div>

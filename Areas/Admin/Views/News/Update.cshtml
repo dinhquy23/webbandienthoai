@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+@using Project.Models
+
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Register - SB Admin</title>
+    <link href="~/Admin/css/styles.css" rel="stylesheet" />
+    <script language="javascript" src="~/Admin/ckeditor/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="bg-primary">
+    <div id="layoutAuthentication" style="margin-bottom:50px;">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-11">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Update News</h3></div>
+                                <div class="card-body">
+                                    <form method="post" enctype="multipart/form-data" action="">
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    <input type="text" value="@if (Model != null) {<text>@Model.Name</text>}" name="Name" id="inputFirstName" class="form-control" required>
+                                                    <label for="inputFirstName">Name</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    Photo
+                                                    <input type="file" id="inputPhoto" name="Photo" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    Hot News
+                                                    <input type="checkbox" name="Hot" id="Hot" @if (Model != null && Model.Hot == 1) { <text> checked </text>}/>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    Description
+                                                    <textarea name="Description"> @if (Model != null)
+                                                        {
+                                                            <text>@Model.Description</text>
+                                                        }
+                                                    </textarea>
+                                                    <script language="javascript">
+                                                        CKEDITOR.replace("Description")
+                                                    </script>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-12">
+                                                <div class="form-floating mb-3 mb-md-0">
+                                                    Content
+                                                    <textarea name="Content"> @if (Model != null)
+                                                        {
+                                                            <text>@Model.Content</text>
+                                                        }
+                                                    </textarea>
+                                                    <script language="javascript">
+                                                        CKEDITOR.replace("Content")
+                                                    </script>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-4 mb-0">
+                                            <div class="d-grid">
+                                                <input type="submit" class="btn btn-primary btn-block" value="Update News">
+
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="~/Admin/js/scripts.js"></script>
+</body>
+</html>

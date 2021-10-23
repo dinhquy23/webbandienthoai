@@ -1,0 +1,63 @@
+﻿@{
+
+    Layout = "~/Views/Shared/TrangTrong.cshtml";
+}
+
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using Project.Models;
+@using System.IO;
+
+@functions {
+    public MyDbContext db = new MyDbContext();
+
+    public string GetCategory(int _CategoryID)
+    {
+        Categories record = db.Categories.Where(item => item.ID == _CategoryID).FirstOrDefault();
+        return record.Name != null ? record.Name : "";
+    }
+}
+@{
+    int _CategoryID = Convert.ToInt32(ViewBag.CategoryID);
+    string strOrder = !String.IsNullOrEmpty(Context.Request.Query["order"]) ? Context.Request.Query["order"] : "";
+}
+<link rel="stylesheet" type="text/css" href="~/frontend/assets/css/pagelist.css" />
+    <div class="left">
+        <div class="title"><a href="#"><h2>Tìm kiếm</h2></a></div>
+        <div class="main-content">
+            <ul>
+                @foreach(var item in Model)
+                {
+                <li>
+                    
+                        <div class="product1" style="position:relative;">
+                        <div style="width:30px; line-height:30px; text-align:center; z-index:3; background:rgba(246,0,0,0.6);color:white;border-radius:30px;position:absolute">-@item.Discount%</div>
+                        <div class="img1">
+                            <a href="/Products/Detail/@item.ID"><img style="width:150px; height:150px; z-index:-1;" src="~/Upload/Products/@item.Photo"></a>
+                        </div>
+                        <a href="/WishList/Create/@item.ID"><div style="position:absolute; top:5px; right:7px;" class="heart"></div></a>
+                        <div class="content1">
+                            <p>@item.Name</p>
+                            <p style="text-decoration: line-through;  color:red;">@string.Format("{0:#,#.}", item.Price) ₫ </p>
+                            <p>@string.Format("{0:#,#.}",item.Price - (item.Price * item.Discount) / 100) ₫ </p>
+                            <div class="star" style="text-align: center;">
+                                <a href="/Products/Star/@item.ID?star=1"><img src="~/Frontend/images/star.jpg"></a>
+                                <a href="/Products/Star/@item.ID?star=2"><img src="~/Frontend/images/star.jpg"></a>
+                                <a href="/Products/Star/@item.ID?star=3"><img src="~/Frontend/images/star.jpg"></a>
+                                <a href="/Products/Star/@item.ID?star=4"><img src="~/Frontend/images/star.jpg"></a>
+                                <a href="/Products/Star/@item.ID?star=5"><img src="~/Frontend/images/star.jpg"></a>
+                            </div>
+                            <form action="#">
+                                <a href="/Cart/Buy/@item.ID"> <input type="button" value="Add To Cart"></a>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+                }
+              
+            </ul>
+        </div>
+        <div class="phantrang">
+                   @Html.PagedListPager((IPagedList)Model,p=>Url.Action("SearchProducts",new{page=p}))
+                </div>
+    </div>

@@ -1,0 +1,81 @@
+﻿@{
+
+    Layout = "~/Views/Shared/TrangTrong.cshtml";
+}
+<script type="text/javascript" src="~/Frontend/assets/js/jquery-3.6.0.js"></script>
+<div class="left">
+    <div class="title"><a href="#"><h2>Giỏ hàng</h2></a></div>
+    @if (ViewBag._cart != null)
+    {
+        <div class="main-content">
+            <form action="/Cart/Update" method="post">
+                <script language="javascript">
+                    function updateProduct(productID) {
+                       
+                        //lay so luong san pham
+                        var quantity = $("#quantity_" + productID).val();
+                        //ajax goi ham AjaxUpdate de update san pham
+                        $.get("/Cart/AjaxUpdate?productID=" + productID + "&quantity=" + quantity, function (giasanpham) {
+                            //cap nhat lai muc gia
+                            $("#price_" + productID).html(giasanpham);
+                        });
+                        $.get("/Cart/AjaxGetTotalPrice?productID=" + productID + "&quantity=" + quantity, function(tonggia){
+                            $("#totalPrice").html(tonggia);
+                        });
+                    }
+                </script>
+                <table border="1" style="border-collapse: collapse; margin-left:20px;">
+                    <thead>
+                        <tr>
+                            <th style="width:150px;">Ảnh sản phẩm</th>
+                            <th style="width:450px;">Tên sản phẩm</th>
+                            <th style="width:80px;">Giá bán lẻ</th>
+                            <th style="width:50px;">Số lượng</th>
+                            <th style="width:80px;">Thành tiền</th>
+                            <th style="width:50px;">Xóa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in ViewBag._cart)
+                        {
+                            double price = item.RecordProduct.Price - (item.RecordProduct.Price * (item.RecordProduct.Discount) / 100);
+                            <tr>
+                                <td><img style="width:150px;" src="~/Upload/Products//@item.RecordProduct.Photo" class="img-responsive" /></td>
+                                <td><a href="/Products/Detail/@item.RecordProduct.ID">@item.RecordProduct.Name</a></td>
+                                <td>  @string.Format("{0:#,#.}", price)₫ </td>
+                                <td><input type="number" style="width:50px;" id="quantity_@item.RecordProduct.ID" min="1" onchange="updateProduct(@item.RecordProduct.ID);" class="input-control" value="@item.Quantity" name="product_@item.RecordProduct.ID" required="Không thể để trống"></td>
+                                <td><p><b id="price_@item.RecordProduct.ID">@string.Format("{0:#,#.}", item.Quantity * price)₫</b></p></td>
+                                <td><a href="/Cart/Remove/@item.RecordProduct.ID">Xóa sản phẩm<i class="fa fa-trash"></i></a></td>
+                            </tr>
+                        }
+                    </tbody>
+                    @if (ViewBag._total > 0)
+                    {
+                        <tfoot>
+                            <tr>
+                                <td colspan="6">
+                                    <div class="phai">
+                                        <a href="/Home" style="text-align: right;" class="tieptucmua">Tiếp tục mua hàng</a>
+                                        <input type="submit" style="text-align:right; padding:5px; background: #232F3E; color: white;" value="Cập nhật">
+                                    </div>
+                                    <div class="trai">
+                                        <a href="/Cart/Destroy" class="xoatoanbo" style="width: 200px; height: 25px; padding: 7px;background: #F7CA00;border-radius: 5px;">Xóa toàn bộ</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    }
+                </table>
+            </form>
+            @if (ViewBag._total > 0)
+            {
+                <div class="thanhtoan">
+                    Tổng tiền thanh toán:
+                    <span id="totalPrice">@string.Format("{0:#,#.}",ViewBag._total)₫ </span><br>
+                    <a href="/Cart/Checkout" style="float: right; margin-top: 5px;">Thanh toán</a>
+                </div>
+            }
+        </div>
+    }
+</div>
